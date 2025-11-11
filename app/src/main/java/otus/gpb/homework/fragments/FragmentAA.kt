@@ -1,10 +1,13 @@
 package otus.gpb.homework.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import otus.gpb.homework.fragments.databinding.FragmentAABinding
 
@@ -26,6 +29,29 @@ class FragmentAA : Fragment() {
     private lateinit var fragmentAB: FragmentAB
 
     private var color: Int = Color.CYAN
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val backStackEntryCount = childFragmentManager.backStackEntryCount
+                Toast.makeText(
+                    context,
+                    "FragmentAA back stack entry count: $backStackEntryCount",
+                    Toast.LENGTH_SHORT
+                ).show()
+                if (backStackEntryCount > 0) {
+                    childFragmentManager.popBackStack()
+                } else {
+                    isEnabled = false
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,12 +75,12 @@ class FragmentAA : Fragment() {
         fragmentAB = if (savedInstanceState == null) {
             FragmentAB.newInstance(ColorGenerator.generateColor())
         } else {
-            childFragmentManager.findFragmentByTag("fragmentA") as FragmentAB
+            childFragmentManager.findFragmentByTag("fragmentAB") as FragmentAB
         }
         with(binding) {
-            fragmentAAButton.setOnClickListener {
+            fragmentABButton.setOnClickListener {
                 childFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_a_container, fragmentAB)
+                    .replace(R.id.fragment_a_container, fragmentAB, "fragmentAB")
                     .addToBackStack("fragmentA")
                     .commit()
             }

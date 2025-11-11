@@ -1,9 +1,12 @@
 package otus.gpb.homework.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import otus.gpb.homework.fragments.databinding.FragmentABinding
 
@@ -22,6 +25,29 @@ class FragmentA : Fragment() {
 
     private lateinit var fragmentAA: FragmentAA
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val backStackEntryCount = childFragmentManager.backStackEntryCount
+                Toast.makeText(
+                    context,
+                    "FragmentA back stack entry count: $backStackEntryCount",
+                    Toast.LENGTH_SHORT
+                ).show()
+                if (backStackEntryCount > 0) {
+                    childFragmentManager.popBackStack()
+                } else {
+                    isEnabled = false
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,12 +63,12 @@ class FragmentA : Fragment() {
         fragmentAA = if (savedInstanceState == null) {
             FragmentAA.newInstance(ColorGenerator.generateColor())
         } else {
-            childFragmentManager.findFragmentByTag("fragmentA") as FragmentAA
+            childFragmentManager.findFragmentByTag("fragmentAA") as FragmentAA
         }
         with(binding) {
             fragmentAAButton.setOnClickListener {
                 childFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_a_container, fragmentAA)
+                    .replace(R.id.fragment_a_container, fragmentAA, "fragmentAA")
                     .addToBackStack("fragmentA")
                     .commit()
             }

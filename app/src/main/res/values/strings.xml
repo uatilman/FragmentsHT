@@ -4,6 +4,7 @@
     <string name="activity_b_button_text">Activity B</string>
     <string name="fragment_aa_button_text">Fragment AA</string>
     <string name="fragment_ab_button_text">Fragment AB</string>
+    <string name="hello_blank_fragment_a">Hello Fragment A</string>
     <string name="hello_blank_fragment_a_a">Hello Fragment AA</string>
     <string name="hello_blank_fragment_a_b">Hello Fragment AB</string>
 </resources>
