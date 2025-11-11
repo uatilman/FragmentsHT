@@ -6,24 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import otus.gpb.homework.fragments.databinding.FragmentAABinding
+import otus.gpb.homework.fragments.databinding.FragmentABBinding
 
-const val COLOR_ARG_PARAM = "color"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [FragmentAA.newInstance] factory method to
+ * Use the [FragmentAB.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentAA : Fragment() {
+class FragmentAB : Fragment() {
 
-    private var _binding: FragmentAABinding? = null
+
+    private var _binding: FragmentABBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-    private lateinit var fragmentAB: FragmentAB
 
     private var color: Int = Color.CYAN
 
@@ -38,27 +36,10 @@ class FragmentAA : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAABinding.inflate(inflater, container, false)
+        _binding = FragmentABBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.root.setBackgroundColor(color)
         return root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fragmentAB = if (savedInstanceState == null) {
-            FragmentAB.newInstance(ColorGenerator.generateColor())
-        } else {
-            childFragmentManager.findFragmentByTag("fragmentA") as FragmentAB
-        }
-        with(binding) {
-            fragmentAAButton.setOnClickListener {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_a_container, fragmentAB)
-                    .addToBackStack("fragmentA")
-                    .commit()
-            }
-        }
     }
 
     override fun onDestroyView() {
@@ -69,7 +50,7 @@ class FragmentAA : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: Int) =
-            FragmentAA().apply {
+            FragmentAB().apply {
                 arguments = Bundle().apply {
                     putInt(COLOR_ARG_PARAM, param1)
                 }
