@@ -10,4 +10,5 @@
     <string name="hello_blank_fragment_b_a">Hello Fragment BA</string>
     <string name="hello_blank_fragment_b_b">Hello Fragment BB</string>
     <string name="fragment_b_b_button_text">Change BA color</string>
+    <string name="fragment_b_a_button_text">Change BB color</string>
 </resources>
