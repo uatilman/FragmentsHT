@@ -35,14 +35,14 @@ class FragmentAA : Fragment() {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val backStackEntryCount = childFragmentManager.backStackEntryCount
+                val backStackEntryCount = parentFragmentManager.backStackEntryCount
                 Toast.makeText(
                     context,
                     "FragmentAA back stack entry count: $backStackEntryCount",
                     Toast.LENGTH_SHORT
                 ).show()
                 if (backStackEntryCount > 0) {
-                    childFragmentManager.popBackStack()
+                    parentFragmentManager.popBackStack()
                 } else {
                     isEnabled = false
                     requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -75,11 +75,11 @@ class FragmentAA : Fragment() {
         fragmentAB = if (savedInstanceState == null) {
             FragmentAB.newInstance(ColorGenerator.generateColor())
         } else {
-            childFragmentManager.findFragmentByTag("fragmentAB") as FragmentAB
+            parentFragmentManager.findFragmentByTag("fragmentAB") as FragmentAB
         }
         with(binding) {
             fragmentABButton.setOnClickListener {
-                childFragmentManager.beginTransaction()
+                parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_a_container, fragmentAB, "fragmentAB")
                     .addToBackStack("fragmentA")
                     .commit()
