@@ -6,7 +6,6 @@ import otus.gpb.homework.fragments.databinding.ActivityABinding
 
 class ActivityA : AppCompatActivity() {
 
-
     private lateinit var binding: ActivityABinding
 
     private lateinit var fragmentA: FragmentA
@@ -22,7 +21,6 @@ class ActivityA : AppCompatActivity() {
         }
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_activity_a, fragmentA, "fragmentA")
-            .addToBackStack("fragmentA")
             .commit()
 
     }

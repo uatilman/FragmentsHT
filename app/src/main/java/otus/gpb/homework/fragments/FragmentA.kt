@@ -5,22 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import otus.gpb.homework.fragments.databinding.FragmentABinding
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentA.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentA : Fragment() {
     private var _binding: FragmentABinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var fragmentAA: FragmentAA
@@ -28,24 +20,17 @@ class FragmentA : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val backStackEntryCount = parentFragmentManager.backStackEntryCount
-                Toast.makeText(
-                    context,
-                    "FragmentA back stack entry count: $backStackEntryCount",
-                    Toast.LENGTH_SHORT
-                ).show()
-                if (backStackEntryCount > 0) {
-                    parentFragmentManager.popBackStack()
+                if (childFragmentManager.backStackEntryCount > 0) {
+                    childFragmentManager.popBackStack()
                 } else {
                     isEnabled = false
                     requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     override fun onCreateView(
@@ -63,12 +48,12 @@ class FragmentA : Fragment() {
         fragmentAA = if (savedInstanceState == null) {
             FragmentAA.newInstance(ColorGenerator.generateColor())
         } else {
-            parentFragmentManager.findFragmentByTag("fragmentAA") as FragmentAA
+            childFragmentManager.findFragmentByTag("fragmentAA") as FragmentAA
         }
         with(binding) {
             fragmentAAButton.setOnClickListener {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_a_container, fragmentAA, "fragmentAA")
+                childFragmentManager.beginTransaction()
+                    .replace(fragmentAContainer.id, fragmentAA, "fragmentAA")
                     .addToBackStack("fragmentA")
                     .commit()
             }
