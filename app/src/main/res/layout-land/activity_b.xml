@@ -4,17 +4,21 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
     tools:context=".ActivityB">
 
-    <FrameLayout
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_b_a_container"
+        android:name="otus.gpb.homework.fragments.FragmentBA"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_b_b_container"
+        android:name="otus.gpb.homework.fragments.FragmentBB"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
